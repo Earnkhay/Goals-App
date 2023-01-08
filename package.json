@@ -1,0 +1,19 @@
+{
+  "name": "goals-api",
+  "version": "1.0.0",
+  "description": "my first api",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/index.js",
+    "serve": "nodemon backend/index.js"
+  },
+  "author": "Nkechi Onyimadu",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "express-async-handler": "^1.2.0",
+    "mongoose": "^6.8.3"
+  }
+}
