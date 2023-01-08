@@ -1,5 +1,5 @@
 //middleware are functions that execute during the request response cycle
-export const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, req, res, next) => {
     const statusCode = res.statusCode ? res.statusCode : 500
     res.status(statusCode)
     res.json({
@@ -8,4 +8,4 @@ export const errorHandler = (err, req, res, next) => {
     })
 }
 
-// export default { errorHandler }
+export default errorHandler 

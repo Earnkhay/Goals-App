@@ -1,10 +1,14 @@
 import express from 'express';
-// const dotenv = require('dotenev').config()
 import * as dotenv from 'dotenv'
 dotenv.config()
 import goalRoutes from './routes/goals.js'
-import { errorHandler } from './middleware/errorMiddleware.js'
+// import { errorHandler } from './middleware/errorMiddleware.js'
+import errorHandler from './middleware/errorMiddleware.js'
+import connectDB from './config/db.js';
+
 const port = process.env.PORT || 3000
+
+connectDB()
 
 const app = express()
 
