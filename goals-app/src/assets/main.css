@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body{
+  @apply bg-gray-100;
+} */
+
+@layer components {
+  .btn {
+      @apply bg-slate-900 text-white px-3 py-2 rounded-md text-sm text-white w-3/4 md:w-1/2 lg:w-1/4 hover:ring-2;
+  }
+  .input{
+    @apply w-3/4 md:w-1/2 lg:w-1/4 p-1 rounded-md outline-gray-200 outline outline-1 hover:outline-blue-400 focus:outline-green-600;
+  }
+  .card{
+      @apply p-3 rounded-md bg-white shadow-md h-full;
+  }
+}
