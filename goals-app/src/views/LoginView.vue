@@ -1,10 +1,10 @@
 <script setup>
 import ButtonComp from "../components/ButtonComp.vue";
-import { useLoginStore } from "../stores/loginStore";
+import { useAuthStore } from "../stores/authStore";
 import { storeToRefs } from "pinia";
 import NavbarComp from "../components/NavbarComp.vue";
 
-const store = useLoginStore()
+const store = useAuthStore()
 
 const { name, email, password, pageType} = storeToRefs(store)
 
