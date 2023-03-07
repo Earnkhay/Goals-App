@@ -27,11 +27,22 @@ const store = useAuthStore(pinia)
 router.beforeEach((to, from, next) => {
   if (to.name !== 'login' && !store.isAuthenticated) {
     next({ name: 'login' })
-    alert('not authorized')
-    return
+    // alert('not authorized')
   } else {
     next()
   }
 })
+
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some((record) => record.meta.requiresAuth)) {
+//     if (!store.isAuthenticated) {
+//       next({ name: "login" });
+//     } else {
+//       next();
+//     }
+//   } else {
+//     next();
+//   }
+// })
 
 export default router
