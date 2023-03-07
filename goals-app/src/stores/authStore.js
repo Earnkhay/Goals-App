@@ -12,6 +12,7 @@ export const useAuthStore = defineStore('authStore', () => {
     const url = ref('http://localhost:8000/api/users')
     const router = useRouter()
     const user = ref(JSON.parse(localStorage.getItem('user')) || null)
+    const token = ref(localStorage.getItem('token'))
 
     function setUser(data) {
         user.value = data
@@ -48,11 +49,20 @@ export const useAuthStore = defineStore('authStore', () => {
                 await axios.get(`${url.value}/me`)
                     .then((res) => {
                         setUser(res.data)
-                        router.push('/')
+                        if (router.currentRoute.value.path == '/login') {
+                            router.push('/');
+                          }
+                        // router.push('/')
+                        // if (router.currentRoute.value.name == "login") {
+                        //     router.push("/");
+                        //   } else {
+                        //     router.replace("/");
+                        //   }
                     })
                     .catch((err) => {
                         console.log(err);
                     })
+                    console.log(router.push('/'));
             })
             .catch((err) => {
                 console.log(err);
@@ -76,7 +86,7 @@ export const useAuthStore = defineStore('authStore', () => {
         router.push('/login')
     }
 
-    return { name, email, password, pageType, user, handleSubmit, setLoginPage, isAuthenticated, logout }
+    return { name, email, password, pageType, user, token, handleSubmit, setLoginPage, isAuthenticated, logout }
 })
 
 pinia.use(useAuthStore)
