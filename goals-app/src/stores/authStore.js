@@ -8,6 +8,7 @@ export const useAuthStore = defineStore('authStore', () => {
     const name = ref('')
     const email = ref('')
     const password = ref('')
+    const isLoading = ref(false)
     const pageType = ref('signUp')
     const url = ref('http://localhost:8000/api/users')
     const router = useRouter()
@@ -24,15 +25,16 @@ export const useAuthStore = defineStore('authStore', () => {
     })
 
     async function handleSubmit() {
+        isLoading.value = true
         if(pageType.value == 'signUp' && name.value != '' && email.value != '' && password.value != ''){
             await axios.post(url.value, {
                 name: name.value,
                 email: email.value,
                 password: password.value
             })
-            .then((res) => {
-                console.log(res);
-                pageType.value == "login"
+            .then(() => {
+                pageType.value = "login"
+                isLoading.value = false
             })
             .catch((err) => {
                 console.log(err.response.data.message);
@@ -43,6 +45,7 @@ export const useAuthStore = defineStore('authStore', () => {
                 password: password.value
             })
             .then(async (res) => {
+                isLoading.value = false
                 const token = res.data.token;
                 localStorage.setItem('token', token);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -86,7 +89,7 @@ export const useAuthStore = defineStore('authStore', () => {
         router.push('/login')
     }
 
-    return { name, email, password, pageType, user, token, handleSubmit, setLoginPage, isAuthenticated, logout }
+    return { name, email, password, pageType, user, token, isLoading, isAuthenticated, handleSubmit, setLoginPage, logout }
 })
 
 pinia.use(useAuthStore)
