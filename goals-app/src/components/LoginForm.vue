@@ -19,7 +19,9 @@ const { name, email, password, pageType} = storeToRefs(store)
         <div class="mb-3">
             <input type="password" class="input" v-model="password" placeholder="password" required>
         </div>
-        <button-comp>{{ pageType == "signUp" ? "Register" : "Login"}}</button-comp>
+        <button-comp>
+            {{ pageType == "signUp" ? "Register" : "Login"}}
+        </button-comp>
     </form>
 </template>
 
