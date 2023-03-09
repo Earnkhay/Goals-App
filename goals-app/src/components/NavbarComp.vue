@@ -1,5 +1,6 @@
 <script setup>
 import { useAuthStore } from '../stores/authStore';
+import { RouterLink } from 'vue-router';
 
 const store = useAuthStore()
 </script>

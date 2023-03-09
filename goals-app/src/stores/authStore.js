@@ -44,28 +44,21 @@ export const useAuthStore = defineStore('authStore', () => {
                 email: email.value,
                 password: password.value
             })
-            .then(async (res) => {
+            .then( (res) => {
                 isLoading.value = false
                 const token = res.data.token;
                 localStorage.setItem('token', token);
                 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-                await axios.get(`${url.value}/me`)
+                axios.get(`${url.value}/me`)
                     .then((res) => {
                         setUser(res.data)
-                        if (router.currentRoute.value.path == '/login') {
-                            router.push('/');
-                          }
-                        // router.push('/')
-                        // if (router.currentRoute.value.name == "login") {
-                        //     router.push("/");
-                        //   } else {
-                        //     router.replace("/");
-                        //   }
+                        console.log(isAuthenticated.value);
+                        router.push({name: 'home'})
+                        // console.log(router.push('/'));
                     })
                     .catch((err) => {
                         console.log(err);
                     })
-                    console.log(router.push('/'));
             })
             .catch((err) => {
                 console.log(err);
