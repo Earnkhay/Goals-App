@@ -52,8 +52,8 @@ export const useAuthStore = defineStore('authStore', () => {
                 axios.get(`${url.value}/me`)
                     .then((res) => {
                         setUser(res.data)
-                        console.log(isAuthenticated.value);
                         router.push({name: 'home'})
+                        router.go(0)
                         // console.log(router.push('/'));
                     })
                     .catch((err) => {
@@ -74,12 +74,13 @@ export const useAuthStore = defineStore('authStore', () => {
         }
     }
 
-    function logout() {
+    async function logout() {
+        await router.push('/login')
+        router.go(0)
         localStorage.removeItem('token')
         localStorage.removeItem('user')
         axios.defaults.headers.common['Authorization'] = ''
         user.value = null
-        router.push('/login')
     }
 
     return { name, email, password, pageType, user, token, isLoading, isAuthenticated, handleSubmit, setLoginPage, logout }

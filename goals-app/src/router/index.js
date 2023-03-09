@@ -10,7 +10,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      // meta: { requiresAuth: true },
+      meta: { requiresAuth: true },
     },
     {
       path: '/login',
@@ -35,8 +35,10 @@ router.beforeEach((to, from, next) => {
   const store = useAuthStore(pinia)
   if (to.name !== 'login' && !store.isAuthenticated) {
     next({ name: 'login' })
+    // router.go(0)
   } else if (to.name === 'login' && store.isAuthenticated) {
     next({ path: '/' })
+    // router.go(0)
   } else {
     next()
   }
