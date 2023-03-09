@@ -1,14 +1,10 @@
 <script setup>
 import NavbarComp from '../components/NavbarComp.vue';
 import { useAuthStore } from '../stores/authStore';
-// import { useGoalStore } from '../stores/goalStore';
 import GoalsForm from '../components/GoalsForm.vue';
 import goalsDetails from '../components/goalsDetails.vue';
 
 const authStore = useAuthStore();
-// const store = useGoalStore()
-
-// store.getGoals()
 
 </script>
 

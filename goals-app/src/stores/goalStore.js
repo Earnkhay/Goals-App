@@ -45,7 +45,7 @@ export const useGoalStore = defineStore('goalStore', {
             })
             .then(async () =>{
                 await this.getGoals()
-                console.log(`Goal with id ${id} deleted successfully`);
+                // console.log(`Goal with id ${id} deleted successfully`);
             })
             .catch((err) => {
                 console.log(`Failed to delete goal with id ${id}: ${err.response.data.message}`);
