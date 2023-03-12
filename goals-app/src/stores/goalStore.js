@@ -10,13 +10,13 @@ export const useGoalStore = defineStore('goalStore', {
         goal: '',
         goals: [],
         isLoading: false,
-        apiUrl: 'http://localhost:8000/api/goals'
+        apiUrl: 'http://localhost:8000/api/goals',
     }),
     getters: {
     },
     actions: {
         async addGoal() {
-            this.isLoading = true
+            // this.isLoading = true
             if (this.goal !== '') {
                 try {
                   const res = await axios.post(this.apiUrl, {
@@ -28,7 +28,7 @@ export const useGoalStore = defineStore('goalStore', {
                   });
                   this.goal = '';
                   this.goals.push(res.data);
-                  this.isLoading = false
+                //   this.isLoading = false
                 } catch (err) {
                   console.log(err.response.data.message);
                 }
@@ -53,14 +53,14 @@ export const useGoalStore = defineStore('goalStore', {
         },
 
         async getGoals(){
-            this.isLoading = true
+            // this.isLoading = true
             await axios.get(this.apiUrl, {
                 headers: {
                     Authorization: `Bearer ${authStore.token}`
                 }
             })
             .then((res) =>{
-                this.isLoading = false
+                // this.isLoading = false
                 this.goals = res.data
             })
             .catch((err) => {
