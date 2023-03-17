@@ -1,5 +1,4 @@
 <script setup>
-import NavbarComp from '../components/NavbarComp.vue';
 import { useAuthStore } from '../stores/authStore';
 import GoalsForm from '../components/GoalsForm.vue';
 import goalsDetails from '../components/goalsDetails.vue';
@@ -10,7 +9,6 @@ const authStore = useAuthStore();
 
 <template>
   <main>
-    <navbar-comp/>
     <div class="text-center">
       <div class="mb-4 font-bold pt-14">
           <h1 class="text-4xl mb-3">Welcome {{ authStore.user?.name }}</h1>

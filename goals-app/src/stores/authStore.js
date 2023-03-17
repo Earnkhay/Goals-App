@@ -19,7 +19,7 @@ export const useAuthStore = defineStore('authStore', () => {
     const emailError = ref(false)
     const errMsg = ref('')
     const { icon, title, showAlert } = useToast()
-    showAlert
+    // showAlert
 
     function setUser(data) {
         user.value = data
@@ -74,11 +74,13 @@ export const useAuthStore = defineStore('authStore', () => {
                 axios.get(`${url.value}/me`)
                     .then((res) => {
                         setUser(res.data)
-                        router.push({name: 'home'})
-                        // router.go(0)
                         icon.value = 'success'
                         title.value = `Welcome ${res.data.name}, to your goals app`
                         showAlert()
+                        router.push({name: 'home'})
+                        setTimeout(() => {
+                            router.go(0)
+                        }, 1000);
                     })
                     .catch((err) => {
                         console.log(err);
@@ -102,15 +104,16 @@ export const useAuthStore = defineStore('authStore', () => {
     }
 
     function logout() {
-        router.push('/login')
-        // router.go(0)
+        icon.value = 'success'
+        title.value = 'Logged out successfully'
+        showAlert()
         localStorage.removeItem('token')
         localStorage.removeItem('user')
         axios.defaults.headers.common['Authorization'] = ''
         user.value = null
-        icon.value = 'success'
-        title.value = 'Logged out successfully'
-        showAlert()
+        setTimeout(() => {
+            router.go(0)
+        }, 1000);
     }
 
     return { name, email, password, pageType, user, emailError, errMsg, 

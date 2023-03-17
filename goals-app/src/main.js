@@ -5,6 +5,7 @@ import router from './router'
 import './assets/main.css'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
+import '@fortawesome/fontawesome-free/css/all.css'
 
 const app = createApp(App)
 
