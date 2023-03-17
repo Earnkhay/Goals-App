@@ -10,7 +10,14 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: HomeView,
-      meta: { requiresAuth: true },
+      // beforeEnter: (to, from, next) => {
+      //   const store = useAuthStore(pinia)
+      //   if (store.isAuthenticated) {
+      //     next()
+      //   }else {
+      //     next('/login')
+      //   }
+      // }
     },
     {
       path: '/login',
@@ -20,72 +27,16 @@ const router = createRouter({
   ]
 })
 
-
-// router.beforeEach((to, from, next) => {
-//   const store = useAuthStore(pinia)
-//   if (to.name !== 'login' && !store.isAuthenticated) {
-//     // store.logout()
-//     next({ name: 'login' })
-//   } else{
-//     next()
-//   }
-// })
-
 router.beforeEach((to, from, next) => {
   const store = useAuthStore(pinia)
   if (to.name !== 'login' && !store.isAuthenticated) {
     next({ name: 'login' })
-    // router.go(0)
   } else if (to.name === 'login' && store.isAuthenticated) {
     next({ path: '/' })
-    // router.go(0)
   } else {
     next()
   }
 })
 
-// router.beforeEach(async (to, from, next) => {
-//   const store = useAuthStore(pinia)
-//   if (to.meta.requiresAuth && !store.isAuthenticated) {
-//     next('/'); // redirect to login page if not authenticated
-//   } else {
-//     next(); // allow access to the route
-//   }
-// });
-
-// router.beforeEach((to, from, next) => {
-//   if(to.name !== 'login' && !store.isAuthenticated) {
-//     next({ name: 'login' });
-//   } else {
-//     next();
-//   }
-// })
-
-// router.beforeEach((to, from, next) => {
-//   const store = useAuthStore(pinia)
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//     if (!store.isAuthenticated) {
-//       next({ name: "login" });
-//       return
-//     } else {
-//       next();
-//     }
-//   } else {
-//     next();
-//   }
-// })
-// router.beforeEach(async (to, from, next) => {
-//   const store = useAuthStore(pinia)
-//   if (to.matched.some((record) => record.meta.requiresAuth)) {
-//     if (store.isAuthenticated) {
-//       next();
-//       return
-//     }else{
-//       next("/login")
-//     }
-//   } else {
-//     next();
-//   }
-// })
 
 export default router

@@ -2,72 +2,85 @@ import { defineStore } from "pinia";
 import axios from 'axios'
 import pinia from "./store";
 import { useAuthStore } from "./authStore";
+import { ref } from "vue";
+import { useToast } from "../composables/toast";
 
 const authStore = useAuthStore(pinia)
 
-export const useGoalStore = defineStore('goalStore', {
-    state: () => ({
-        goal: '',
-        goals: [],
-        isLoading: false,
-        loading: false,
-        apiUrl: 'http://localhost:8000/api/goals',
-    }),
-    getters: {
-    },
-    actions: {
-        async addGoal() {
-            this.loading = true
-            if (this.goal !== '') {
-                try {
-                  const res = await axios.post(this.apiUrl, {
-                    text: this.goal,
-                  }, {
-                    headers: {
-                      Authorization: `Bearer ${authStore.token}`
-                    }
-                  });
-                  this.goal = '';
-                  this.goals.push(res.data);
-                  this.loading = false
-                } catch (err) {
-                  console.log(err.response.data.message);
+export const useGoalStore = defineStore('goalStore', () => {
+    const goal = ref('')
+    const goals = ref([])
+    const isLoading = ref(false)
+    const loading = ref(false)
+    const apiUrl = ref('http://localhost:8000/api/goals')
+    const { icon, title, showAlert } = useToast()
+
+    const addGoal = async () =>  {
+        loading.value = true
+        if (goal.value !== '') {
+            try {
+              const res = await axios.post(apiUrl.value, {
+                text: goal.value,
+              }, {
+                headers: {
+                  Authorization: `Bearer ${authStore.token}`
                 }
-            }else{
-                alert('please add a goal')
-                this.loading = false
+              });
+              goal.value = '';
+              goals.value.push(res.data);
+              loading.value = false
+              icon.value = 'success'
+              title.value = 'Goal added successfully'
+              showAlert()
+            } catch (err) {
+              icon.value = 'error'
+              title.value = `${err.response.data.message}`
+              showAlert()
             }
-        },
-
-        async deleteGoal(id) {
-            await axios.delete(`${this.apiUrl}/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${authStore.token}`
-                }
-            })
-            .then(async () =>{
-                await this.getGoals()
-                // console.log(`Goal with id ${id} deleted successfully`);
-            })
-            .catch((err) => {
-                console.log(`Failed to delete goal with id ${id}: ${err.response.data.message}`);
-            })
-        },
-
-        async getGoals(){
-            this.isLoading = true
-            await axios.get(this.apiUrl, {
-                headers: {
-                    Authorization: `Bearer ${authStore.token}`
-                }
-            })
-            .then((res) =>{
-                this.isLoading = false
-                this.goals = res.data
-            })
-            .catch((err) => {
-                console.log(err.response.data.message);
-            })
+        }else{
+            icon.value = 'info'
+            title.value = 'Please add a goal'
+            showAlert()
+            loading.value = false
         }
     }
+
+    const deleteGoal = async (id) => {
+        await axios.delete(`${apiUrl.value}/${id}`, {
+            headers: {
+                Authorization: `Bearer ${authStore.token}`
+            }
+        })
+        .then(async () =>{
+            await getGoals()
+            icon.value = 'success'
+            title.value = 'Goal deleted successfully'
+            showAlert()
+        })
+        .catch((err) => {
+            icon.value = 'error'
+            title.value = `Failed to delete goal with: ${err.response.data.message}`
+            showAlert()
+        })
+    }
+
+    const getGoals = async () => {
+        isLoading.value = true
+        await axios.get(apiUrl.value, {
+            headers: {
+                Authorization: `Bearer ${authStore.token}`
+            }
+        })
+        .then((res) =>{
+            isLoading.value = false
+            goals.value = res.data
+        })
+        .catch((err) => {
+            icon.value = 'error'
+            title.value = `${err.response.data.message}`
+            showAlert()
+        })
+    }
+
+    return { goal, goals, isLoading, loading, addGoal, deleteGoal, getGoals}
 })
