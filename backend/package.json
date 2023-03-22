@@ -2,11 +2,11 @@
   "name": "goals-api",
   "version": "1.0.0",
   "description": "my first api",
-  "main": "server.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node backend/server.js",
-    "serve": "nodemon backend/server.js"
+    "start": "node backend/index.js",
+    "serve": "nodemon backend/index.js"
   },
   "author": "Nkechi Onyimadu",
   "license": "MIT",
